@@ -1,9 +1,14 @@
 package com.springboot.ecom_project.Model;
 
-import org.springframework.stereotype.Component;
+import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,14 +20,23 @@ import lombok.NoArgsConstructor;
 public class Product {
 
     @Id
-    private int id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
     private String name;
     private String description;
     private String brand;
     private int price;
-    private int stock;
+    private int stockQuantity;
     private String category;
-    private String releaseDate;
-    private boolean availability;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    private Date releaseDate;
+
+    private boolean available;
+    private String imageName;
+    private String imageType;
+    @Lob
+    private byte[] imageData;
 
 }
