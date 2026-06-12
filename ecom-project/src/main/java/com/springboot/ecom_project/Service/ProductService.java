@@ -34,10 +34,4 @@ public class ProductService {
         return prod;
     }
 
-    // // Get Images of the products
-    // public Prod getImages(int id) {s
-    // repo.fi
-
-    // }
-
 }

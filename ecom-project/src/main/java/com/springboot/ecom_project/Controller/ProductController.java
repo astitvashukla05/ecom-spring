@@ -1,7 +1,6 @@
 package com.springboot.ecom_project.Controller;
 
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-
 import com.springboot.ecom_project.Model.Product;
 import com.springboot.ecom_project.Service.ProductService;
 
@@ -52,11 +50,6 @@ public class ProductController {
     @PostMapping("/product")
     public ResponseEntity<?> addProduct(@RequestPart Product product,
             @RequestPart MultipartFile imageFile) {
-        System.out.println("*************************");
-        System.out.println(product);
-        System.out.println(imageFile);
-        System.out.println("**************************");
-
         try {
             Product prod = service.addProduct(product, imageFile);
             return new ResponseEntity<>(prod, HttpStatus.CREATED);
@@ -65,6 +58,7 @@ public class ProductController {
         }
     }
 
+    // Get Product Image
     @GetMapping("/product/{id}/image")
     public ResponseEntity<byte[]> getImages(@PathVariable int id) {
         Product prod = service.geProductById(id);
