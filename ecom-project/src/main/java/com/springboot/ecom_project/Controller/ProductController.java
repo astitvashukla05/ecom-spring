@@ -6,9 +6,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
@@ -40,7 +42,9 @@ public class ProductController {
     @GetMapping("/product/{id}")
     public ResponseEntity<Product> geProductById(@PathVariable int id) {
         Product product = service.geProductById(id);
+
         if (product == null) {
+
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(service.geProductById(id), HttpStatus.OK);
@@ -65,5 +69,27 @@ public class ProductController {
         byte[] imageData = prod.getImageData();
         return ResponseEntity.ok().contentType(MediaType.valueOf(prod.getImageType())).body(imageData);
 
+    }
+
+    // Update a Product
+    @PutMapping("/product/{id}")
+    public ResponseEntity<Boolean> updateProduct(@PathVariable int id, @RequestPart Product product,
+            @RequestPart MultipartFile imageFile) {
+
+        boolean updated = service.updateProduct(id, product, imageFile);
+        if (updated) {
+            return new ResponseEntity<>(true, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(true, HttpStatus.BAD_REQUEST);
+
+    }
+
+    @DeleteMapping("/product/{id}")
+    public ResponseEntity<?> deleteProduct(@PathVariable int id) {
+        boolean deleted = service.deleteProduct(id);
+        if (deleted)
+            return new ResponseEntity<>(true, HttpStatus.OK);
+        else
+            return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
     }
 }

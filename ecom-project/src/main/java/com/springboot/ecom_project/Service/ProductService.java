@@ -34,4 +34,31 @@ public class ProductService {
         return prod;
     }
 
+    // Update Product
+    public boolean updateProduct(int id, Product prod, MultipartFile imageFile) {
+        Product prod1 = repo.findById(id).orElse(null);
+        if (prod1 == null) {
+            return false;
+        }
+        try {
+            prod.setImageData(imageFile.getBytes());
+            prod.setImageName(imageFile.getOriginalFilename());
+            prod.setImageType(imageFile.getContentType());
+        } catch (IOException e) {
+            return false;
+        }
+        repo.save(prod);
+        return true;
+
+    }
+
+    public boolean deleteProduct(int id) {
+        Product prod = repo.findById(id).orElse(null);
+        if (prod != null) {
+            repo.deleteById(id);
+            return true;
+        } else
+            return false;
+    }
+
 }
